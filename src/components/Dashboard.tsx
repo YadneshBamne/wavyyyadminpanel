@@ -1,5 +1,4 @@
-import React from 'react';
-import { Users, Calendar, DollarSign, TrendingUp } from 'lucide-react';
+import { Users, Calendar, DollarSign, BriefcaseIcon } from 'lucide-react';
 
 const Dashboard = () => {
   const stats = [
@@ -17,14 +16,14 @@ const Dashboard = () => {
     },
     {
       title: 'Total Revenue',
-      value: '$12,845',
+      value: '₹12,845',
       icon: DollarSign,
       color: 'bg-purple-500',
     },
     {
-      title: 'Growth Rate',
-      value: '+24%',
-      icon: TrendingUp,
+      title: 'Total Salons',
+      value: '+20',
+      icon: BriefcaseIcon,
       color: 'bg-orange-500',
     },
   ];

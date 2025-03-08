@@ -1,6 +1,9 @@
 import React from 'react';
 import { Users, Calendar, DollarSign, TrendingUp } from 'lucide-react';
-
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { useEffect } from 'react';
+import L from 'leaflet'; // Import Leaflet
+import { useRef } from 'react';
 const Dashboard = () => {
   const stats = [
     {
@@ -53,11 +56,47 @@ const Dashboard = () => {
     },
   ];
 
+  const mapRef = useRef(null);
+  
+  useEffect(() => {
+    if (mapRef.current) {
+      // Initialize the map
+      const map = L.map(mapRef.current).setView([40.7128, -74.0060], 10); // Example: New York coordinates
+
+      // Add OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      // Cleanup: Remove the map on unmount
+      return () => {
+        map.remove();
+      };
+    }
+  }, []);
+
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Dashboard Overview</h1>
+
+      {/* Map Section */}
+      <div className="p-6">
+
       
+      {/* Map Section */}
+      <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <h2 className="text-xl font-semibold mb-4">Location Overview</h2>
+        <div
+          ref={mapRef}
+          className="w-full h-64 rounded-lg"
+          style={{ minHeight: '350px' }} // Matches h-64
+        />
+      </div>
+      </div>
+
+      {/* Stats Section */}
+      <h1 className="text-2xl font-bold mb-6">Dashboard Overview</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        
         {stats.map((stat, index) => (
           <div key={index} className="bg-white rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-between">
@@ -73,6 +112,7 @@ const Dashboard = () => {
         ))}
       </div>
 
+      {/* Appointments Section */}
       <div className="bg-white rounded-lg shadow-sm p-6">
         <h2 className="text-xl font-semibold mb-4">Recent Appointments</h2>
         <div className="overflow-x-auto">
@@ -102,13 +142,12 @@ const Dashboard = () => {
                   <td className="py-4">{appointment.time}</td>
                   <td className="py-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-sm ${
-                        appointment.status === 'Completed'
+                      className={`px-3 py-1 rounded-full text-sm ${appointment.status === 'Completed'
                           ? 'bg-green-100 text-green-800'
                           : appointment.status === 'In Progress'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}
+                            ? 'bg-blue-100 text-blue-800'
+                            : 'bg-yellow-100 text-yellow-800'
+                        }`}
                     >
                       {appointment.status}
                     </span>

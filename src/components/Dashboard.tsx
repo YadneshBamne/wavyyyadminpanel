@@ -1,5 +1,7 @@
 import { Users, Calendar, DollarSign, BriefcaseIcon } from 'lucide-react';
-
+import { useEffect } from 'react';
+import { useRef } from 'react';
+import L from 'leaflet';
 const Dashboard = () => {
   const stats = [
     {
@@ -61,7 +63,6 @@ const Dashboard = () => {
 
       // Add OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
       // Cleanup: Remove the map on unmount
